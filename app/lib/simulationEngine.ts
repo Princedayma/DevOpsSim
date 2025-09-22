@@ -1,5 +1,40 @@
 import { Pipeline, PipelineNode, LogEntry } from '../types';
 import { getRandomDelay, formatTimestamp } from './utils';
+import { pipelineStages } from './pipelineStages';
+
+// Add stageSubSteps here
+const stageSubSteps: Record<string, string[]> = {
+  source: [
+    'Fetch code from repository',
+    'Checkout branch',
+    'Verify commit hash'
+  ],
+  preprocessing: [
+    'Validate configuration files',
+    'Check environment variables',
+    'Prepare workspace'
+  ],
+  build: [
+    'Install dependencies',
+    'Compile source code',
+    'Run linter',
+    'Generate build artifacts'
+  ],
+  test: [
+    'Run unit tests',
+    'Run integration tests',
+    'Generate test reports'
+  ],
+  deploy: [
+    'Provision infrastructure',
+    'Upload artifacts',
+    'Run deployment scripts',
+    'Verify deployment'
+  ],
+  // Add more stages and sub-steps as needed
+};
+
+// ...rest of your code (SimulationEngine class)...
 
 export interface SimulationStep {
   nodeId: string;
@@ -39,11 +74,11 @@ export class SimulationEngine {
   // Start the simulation
   start() {
     if (this.isRunning) return;
-    
+
     this.isRunning = true;
     this.isPaused = false;
     this.currentStep = 0;
-    
+
     this.log('info', 'Pipeline simulation started');
     this.executeNextStep();
   }
@@ -51,11 +86,10 @@ export class SimulationEngine {
   // Pause the simulation
   pause() {
     if (!this.isRunning || this.isPaused) return;
-    
+
     this.isPaused = true;
     this.log('warning', 'Pipeline simulation paused');
-    
-    // Clear all timeouts
+
     this.stepTimeouts.forEach(timeout => clearTimeout(timeout));
     this.stepTimeouts = [];
   }
@@ -63,7 +97,7 @@ export class SimulationEngine {
   // Resume the simulation
   resume() {
     if (!this.isRunning || !this.isPaused) return;
-    
+
     this.isPaused = false;
     this.log('info', 'Pipeline simulation resumed');
     this.executeNextStep();
@@ -74,11 +108,10 @@ export class SimulationEngine {
     this.isRunning = false;
     this.isPaused = false;
     this.currentStep = 0;
-    
-    // Clear all timeouts
+
     this.stepTimeouts.forEach(timeout => clearTimeout(timeout));
     this.stepTimeouts = [];
-    
+
     this.log('info', 'Pipeline simulation stopped');
   }
 
@@ -102,7 +135,7 @@ export class SimulationEngine {
   }
 
   // Execute the next step in the pipeline
-  private executeNextStep() {
+  private async executeNextStep() {
     if (!this.isRunning || this.isPaused || this.currentStep >= this.pipeline.nodes.length) {
       if (this.currentStep >= this.pipeline.nodes.length) {
         this.completeSimulation();
@@ -111,48 +144,46 @@ export class SimulationEngine {
     }
 
     const currentNode = this.pipeline.nodes[this.currentStep];
-    this.startNodeExecution(currentNode);
+    await this.startNodeExecution(currentNode);
   }
 
   // Start executing a specific node
-  private startNodeExecution(node: PipelineNode) {
-    // Update node status to running
+  private async startNodeExecution(node: PipelineNode) {
     this.updateNodeStatus(node.id, 'running');
-    
-    this.log('info', `Starting ${node.data.label}`, node.id);
-    
+
+    // Log each sub-step for this stage
+    const subSteps = stageSubSteps[node.id] || [];
+    for (const subStep of subSteps) {
+      this.log('info', `[${node.id}] ${subStep}`, node.id);
+      await new Promise(res => setTimeout(res, 400)); // Simulate delay
+    }
+
+    this.log('info', `Starting ${node.id}`, node.id);
+
     // Simulate execution time
     const duration = getRandomDelay(1000, 3000);
-    
-    // Simulate potential failure (10% chance)
-    const shouldFail = Math.random() < 0.1;
-    
+
     const timeout = setTimeout(() => {
       if (this.isPaused) return;
-      
-      if (shouldFail) {
-        this.failNodeExecution(node, duration);
-      } else {
-        this.completeNodeExecution(node, duration);
-      }
+      this.completeNodeExecution(node, duration);
     }, duration);
-    
+
     this.stepTimeouts.push(timeout);
   }
 
   // Complete node execution successfully
   private completeNodeExecution(node: PipelineNode, duration: number) {
     this.updateNodeStatus(node.id, 'success', duration);
-    
+
     this.log('success', `${node.data.label} completed successfully`, node.id);
-    
+
     this.onStepComplete?.({
       nodeId: node.id,
       action: 'complete',
       timestamp: new Date(),
       duration,
     });
-    
+
     this.currentStep++;
     this.executeNextStep();
   }
@@ -167,13 +198,13 @@ export class SimulationEngine {
       'Resource quota exceeded',
       'Configuration validation failed',
     ];
-    
+
     const randomError = errorMessages[Math.floor(Math.random() * errorMessages.length)];
-    
+
     this.updateNodeStatus(node.id, 'failed', duration, randomError);
-    
+
     this.log('error', `${node.data.label} failed: ${randomError}`, node.id);
-    
+
     this.onStepComplete?.({
       nodeId: node.id,
       action: 'fail',
@@ -181,8 +212,7 @@ export class SimulationEngine {
       duration,
       error: randomError,
     });
-    
-    // Stop simulation on failure
+
     this.stop();
   }
 
@@ -207,11 +237,33 @@ export class SimulationEngine {
     }
   }
 
+  // Run pipeline using pipelineStages
+  async runPipeline() {
+    for (const stage of pipelineStages) {
+      this.log('info', `Stage started: ${stage.label} - ${stage.description}`, stage.id);
+      // Simulate work (replace with real logic)
+      await this.simulateStage(stage.id);
+      this.log('success', `Stage completed: ${stage.label}`, stage.id);
+    }
+  }
+
+  // Simulate individual stage execution
+  private async simulateStage(stageId: string) {
+    const subSteps = stageSubSteps[stageId] || [];
+    for (const subStep of subSteps) {
+      this.log('info', `[${stageId}] ${subStep}`, stageId);
+      await new Promise(res => setTimeout(res, 400));
+    }
+
+    // Simulate random stage duration
+    await new Promise(res => setTimeout(res, getRandomDelay(1000, 3000)));
+  }
+
   // Complete the entire simulation
   private completeSimulation() {
     this.isRunning = false;
     this.pipeline.status = 'completed';
-    
+
     this.log('success', 'Pipeline simulation completed successfully');
     this.onComplete?.();
   }

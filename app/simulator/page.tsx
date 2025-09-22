@@ -11,6 +11,8 @@ import { PipelineVisualization } from '../components/PipelineVisualization';
 import { PipelineStats } from '../components/PipelineStats';
 import { useSimulation } from '../hooks/useSimulation';
 import { v4 as uuidv4 } from 'uuid';
+import { stepReferences } from '../lib/stepReferences';
+import { pipelineStages } from '../lib/pipelineStages';
 
 export default function Simulator() {
   const searchParams = useSearchParams();
@@ -41,6 +43,9 @@ export default function Simulator() {
   const [isInitialized, setIsInitialized] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
+  // Create a stage map from pipelineStages
+  const stageMap = Object.fromEntries(pipelineStages.map(s => [s.id, s]));
+
   useEffect(() => {
     if (type && !isInitialized) {
       const appType = applicationTypes.find(app => app.id === type);
@@ -64,25 +69,11 @@ export default function Simulator() {
     startSimulation();
   };
 
-  const handlePauseSimulation = () => {
-    pauseSimulation();
-  };
-
-  const handleResumeSimulation = () => {
-    resumeSimulation();
-  };
-
-  const handleStopSimulation = () => {
-    stopSimulation();
-  };
-
-  const handleResetSimulation = () => {
-    resetSimulation();
-  };
-
-  const handleSpeedChange = (speed: number) => {
-    updateSpeed(speed);
-  };
+  const handlePauseSimulation = () => pauseSimulation();
+  const handleResumeSimulation = () => resumeSimulation();
+  const handleStopSimulation = () => stopSimulation();
+  const handleResetSimulation = () => resetSimulation();
+  const handleSpeedChange = (speed: number) => updateSpeed(speed);
 
   if (!type || !currentPipeline) {
     return (
@@ -119,12 +110,10 @@ export default function Simulator() {
               <h1 className="text-2xl font-bold text-gray-900">
                 {appType?.name} Pipeline
               </h1>
-              <p className="text-sm text-gray-600">
-                {currentPipeline.description}
-              </p>
+              <p className="text-sm text-gray-600">{currentPipeline.description}</p>
             </div>
           </div>
-          
+
           {/* Simulation Controls */}
           <div className="flex items-center gap-2">
             {!isRunning ? (
@@ -144,7 +133,7 @@ export default function Simulator() {
                 Pause
               </button>
             )}
-            
+
             <button
               onClick={handleStopSimulation}
               className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
@@ -152,7 +141,7 @@ export default function Simulator() {
               <Square className="w-4 h-4" />
               Stop
             </button>
-            
+
             <button
               onClick={handleResetSimulation}
               className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
@@ -202,13 +191,7 @@ export default function Simulator() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Failure Rate
                 </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="50"
-                  defaultValue="10"
-                  className="w-full"
-                />
+                <input type="range" min="0" max="50" defaultValue="10" className="w-full" />
                 <p className="text-xs text-gray-500 mt-1">10% chance of failure</p>
               </div>
               <div>
@@ -230,14 +213,9 @@ export default function Simulator() {
           {/* Pipeline Visualization */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Pipeline Visualization
-              </h2>
-              
-              <PipelineVisualization 
-                pipeline={currentPipeline}
-                className="h-96"
-              />
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Pipeline Visualization</h2>
+
+              <PipelineVisualization pipeline={currentPipeline} className="h-96" />
             </div>
           </div>
 
@@ -245,36 +223,32 @@ export default function Simulator() {
           <div className="space-y-6">
             {/* Pipeline Statistics */}
             <PipelineStats pipeline={currentPipeline} />
-            
+
             {/* Simulation Status */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Simulation Status
-              </h2>
-              
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Simulation Status</h2>
+
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Status:</span>
-                  <span className={`font-semibold ${
-                    isRunning ? 'text-green-600' : 'text-gray-600'
-                  }`}>
+                  <span
+                    className={`font-semibold ${isRunning ? 'text-green-600' : 'text-gray-600'}`}
+                  >
                     {isRunning ? 'Running' : 'Stopped'}
                   </span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Progress:</span>
                   <span className="font-semibold text-gray-900">
                     {currentStep} / {totalSteps}
                   </span>
                 </div>
-                
+
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{
-                      width: `${progress}%`
-                    }}
+                    style={{ width: `${progress}%` }}
                   />
                 </div>
               </div>
@@ -282,15 +256,39 @@ export default function Simulator() {
 
             {/* Logs */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Simulation Logs
-              </h2>
-              
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {simulationState.logs.length === 0 ? (
-                  <p className="text-gray-500 text-sm">No logs yet. Start the simulation to see logs.</p>
-                ) : (
-                  simulationState.logs.map((log) => (
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Simulation Logs</h2>
+
+              {simulationState.logs.length === 0 ? (
+                <p className="text-gray-500 text-sm">
+                  No logs yet. Start the simulation to see logs.
+                </p>
+              ) : (
+                simulationState.logs.map((log) => {
+                  const match = log.message.match(/^\[(.+?)\]\s*(.+)$/);
+                  let learnMoreUrl: string | undefined;
+
+                  if (match) {
+                    const stage = match[1].trim();
+                    const step = match[2].trim();
+
+                    // First try stepReferences lookup
+                    learnMoreUrl = stepReferences[stage]?.[step];
+
+                    // Fallback: case-insensitive step match
+                    if (!learnMoreUrl && stepReferences[stage]) {
+                      const key = Object.keys(stepReferences[stage]).find(
+                        (k) => k.toLowerCase() === step.toLowerCase()
+                      );
+                      if (key) learnMoreUrl = stepReferences[stage][key];
+                    }
+                  }
+
+                  // Additional check: nodeId with pipelineStages
+                  if (log.nodeId && stageMap[log.nodeId]?.learnMoreUrl) {
+                    learnMoreUrl = stageMap[log.nodeId].learnMoreUrl;
+                  }
+
+                  return (
                     <div
                       key={log.id}
                       className={`text-sm p-2 rounded ${
@@ -307,10 +305,20 @@ export default function Simulator() {
                         {log.timestamp.toLocaleTimeString()}
                       </span>
                       <span className="ml-2">{log.message}</span>
+                      {learnMoreUrl && (
+                        <a
+                          href={learnMoreUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="ml-2 text-blue-600 underline"
+                        >
+                          Learn more
+                        </a>
+                      )}
                     </div>
-                  ))
-                )}
-              </div>
+                  );
+                })
+              )}
             </div>
           </div>
         </div>
