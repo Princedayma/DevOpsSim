@@ -1,0 +1,587 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20250920164928
+Username: KK\mahes
+RunAs User: KK\mahes
+Configuration Name: 
+Machine: KK (Microsoft Windows NT 10.0.26100.0)
+Host Application: PowerShell.exe -noexit -WorkingDirectory C:\Users\mahes\OneDrive\Desktop\DevOpsSim
+Process ID: 16648
+PSVersion: 5.1.26100.6584
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.6584
+BuildVersion: 10.0.26100.6584
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is terminal.log
+PS C:\Users\mahes\OneDrive\Desktop\DevOpsSim> Get-Process
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    221      13     3684      15392              9256   0 AggregatorHost
+    396      18     5992      20340              3384   0 AppHelperCap
+    394      21    13932      42500       0.31   2192   1 ApplicationFrameHost
+     92       7     2620       6668       0.05  18996   1 cmd
+    241      27    86112     112796      16.75   2656   1 Code
+    595      26   129144     168960      28.30   5360   1 Code
+    185      21    73268     144140       3.09   8680   1 Code
+    223      22    93372     134372       5.63  11828   1 Code
+    581     108   566888     564324      27.58  14844   1 Code
+    265      13    10796      32888       0.13  15920   1 Code
+    270      28    84948     115384       5.25  17812   1 Code
+    215      25   124244     164540       6.31  18300   1 Code
+    343      51   153332     159944       9.09  18564   1 Code
+   1072      58   103360     143076       6.16  19412   1 Code
+    195      20    28904     103220       0.84  19460   1 Code
+    198      22   187360     257624      19.92  20164   1 Code
+    181      21    43416     115624       0.66  20392   1 Code
+    347      22    15152      51092       0.59  20696   1 Code
+    528      51   234356     288452      50.08  20788   1 Code
+    117       9     1372       8176       0.19   1708   1 conhost
+     98       8     1256       6644       0.02   6016   1 conhost
+    134      10     1616       9264              7000   0 conhost
+    109       9     1348       8140       0.02   7324   1 conhost
+    109       9     1356       8116       0.06   7636   1 conhost
+    109       9     1348       8108       0.05  14016   1 conhost
+    150      11     2260      11960             17260   0 conhost
+    149      10     1572      10284       0.02  18724   1 conhost
+    109       9     1348       8120       0.02  19556   1 conhost
+   1138     135    47276     165540      15.69  16136   1 Copilot
+    483      24    14656      52996       0.83  10456   1 CrossDeviceResume
+    899      31     3040       7772               720   1 csrss
+    870      29     2500       6172               948   0 csrss
+    552      22    11472      38100      69.38   3156   1 ctfmon
+    291      17    21860      19348              3416   0 DiagsCap
+    141      10     1812       9736       0.02   8228   1 dllhost
+   1561      57   119132     117660              1620   1 dwm
+    201      14     2024      12428       0.03   1900   1 EaseUSStartHelper
+    329      19     3728      16716              5688   0 ensserver
+    139       9     2072       7996              5912   0 esif_uf
+   6576     163   240804     376896     353.53   6036   1 explorer
+    216      11     2052      14012              5624   0 FiboConfigSrv
+    182      11     1932      10644              5616   0 FMService64
+     43      13     7388      13672              1252   1 fontdrvhost
+     43       7     1444       3864              1260   0 fontdrvhost
+    546      27    26132      35504              4540   0 HotKeyServiceUWP
+    207      12     2188      15228             20588   0 HPAudioAnalytics
+    599      27    39620      45740              3676   0 hpsvcsscan
+    122       7     1292       7124              5680   0 ibtsiva
+      0       0       60          8                 0   0 Idle
+    190      11     2276      12176              2660   0 igfxCUIService
+    335      16     3788      17504       1.16   9996   1 igfxEM
+    162      10     1584       9680              2020   0 IntelCpHDCPSvc
+    153       9     1636       9124              2296   0 IntelCpHeciSvc
+    144      10     1444       8264              5632   0 jhi_service
+    260      15     2944      16472              5732   0 LanWlanWwanSwitchingServiceUWP
+   1218      79    73604     150992      16.30  12072   1 LinkedIn
+    248      23     3148      10612              6452   0 lkads
+    254      23     3596      10876              7312   0 lktsrv
+    395      31     6764      17976              5780   0 LMS
+    793      31    19580      74968       1.06  11236   1 LockApp
+     62       8     1252       3968              1100   0 LsaIso
+   1811      26    11364      30312              1108   0 lsass
+      0       0     2008     546544              3480   0 Memory Compression
+    475      17    12236      22660              5744   0 MpDefenderCoreService
+    189      11     9120      21504       0.34   1268   1 msedge
+    826      28   117212     156036      92.44   2972   1 msedge
+    320      25    44264      94488       5.56   3780   1 msedge
+    481      34   110296     175872      18.91   7352   1 msedge
+   1833      82    95916     235848      69.52   7536   1 msedge
+    308      23    48084      96976       8.16  11540   1 msedge
+    194       9     2228      10244       0.05  12752   1 msedge
+    216      18    16596      32496       0.27  13948   1 msedge
+    320      26    62464     117468      17.11  14456   1 msedge
+    249      14     9264      29424       0.44  14468   1 msedge
+    169      12     8328      18960       0.16  15304   1 msedge
+    455      36    22400      55076      15.42  18384   1 msedge
+    151       9     2236       9588       0.03   1768   1 msedgewebview2
+   1162      45    39832     109924       9.69   4636   1 msedgewebview2
+    180      10    10256       1356       0.42   4764   1 msedgewebview2
+    287      21    33552      46480       1.39   4848   1 msedgewebview2
+    209      13     8544      19436       0.30   6708   1 msedgewebview2
+    334      41   223900      20112      46.88   6940   1 msedgewebview2
+    731      40    55092      73620       4.42  10480   1 msedgewebview2
+   1236      45    47844      19860       8.52  11456   1 msedgewebview2
+    472      22    30592       5232       1.13  11932   1 msedgewebview2
+    150       9     2244       9168       0.11  12352   1 msedgewebview2
+    422      33    81396     120660      13.41  12536   1 msedgewebview2
+    260      20    20572      38004       0.63  12644   1 msedgewebview2
+    349      18    14472      41928       2.78  13036   1 msedgewebview2
+    591      23    50260      70956       4.17  13044   1 msedgewebview2
+    177      10     9400      18404       0.39  13132   1 msedgewebview2
+    175      10     8820       1728       0.36  13504   1 msedgewebview2
+    254      20    21212      34984       0.44  13984   1 msedgewebview2
+    670      22    83664       5476       6.86  14192   1 msedgewebview2
+    297      25    35860      71520       1.19  14988   1 msedgewebview2
+   1624      59    54944     133008      27.89  15516   1 msedgewebview2
+    207       9     2228       9648       0.06  15544   1 msedgewebview2
+    387      24    15572      43424      13.59  15720   1 msedgewebview2
+    774      31    92628      72848      12.38  15732   1 msedgewebview2
+    188      11     9684      18816       0.38  15780   1 msedgewebview2
+    848      54   264980     266064      62.80  15896   1 msedgewebview2
+    344      19    12256       7500       1.75  16744   1 msedgewebview2
+    348      18    13392       5424       3.19  17028   1 msedgewebview2
+   1244      46    42876      12984       7.16  17700   1 msedgewebview2
+    256      20    21452      38836       0.45  17768   1 msedgewebview2
+    151       9     2244       9620       0.06  17788   1 msedgewebview2
+    274      24    34616      45624       1.70  18024   1 msedgewebview2
+    478      30   141324       2264      21.02  18136   1 msedgewebview2
+   1010     236   398440     291160              6436   0 MsMpEng
+    886      38    25640      31980       4.08   8008   1 ms-teams
+    144      13    34060      12372              5820   0 mysqld
+    507     302   598456      66236              7116   0 mysqld
+    237      15     4148      15176              3452   0 NetworkCap
+     50       5     1536       3556              6672   0 NgcIso
+    158      13     1996       8308              5932   0 niauth_daemon
+    241      22     3308      10732              7304   0 nidmsrv
+    220      11     4904      14172              9800   0 NisSrv
+    327     169  1006216     936504     107.61  10592   1 node
+    176      29    90640      81740       1.41  11256   1 node
+    199      18    52172      40392       0.30  17896   1 node
+    223      32   103788      92044       1.50  20784   1 node
+    640      23    33428      38088              5704   0 OneApp.IGCC.WinService
+    222      13     2892      15040       0.52  20324   1 OpenConsole
+    623      30    66460      84136       1.66   2188   1 powershell
+    590      29    69236      87192       1.69   3788   1 powershell
+    623      30    69648      88352       1.64   7956   1 powershell
+    817      32    55944      78040       2.97  16648   1 powershell
+    639      30    73464      90532       1.28  17060   1 powershell
+    624      30    66388      84004       1.61  17256   1 powershell
+    252      28    27440      21012              9588   0 PresentationFontCache
+      0      20    13932      54760               184   0 Registry
+    361      14     3992      16252              3392   1 RtkAudUService64
+    477      18     5192      16952              6024   0 RtkAudUService64
+    142       9     2032      11588       0.14   1276   1 RuntimeBroker
+    302      16     6780      29288       1.55   4092   1 RuntimeBroker
+    432      20     5668      38400       1.00  11616   1 RuntimeBroker
+    728      33    14872      63380       3.97  11876   1 RuntimeBroker
+    569      26    10460      50008       2.47  13576   1 RuntimeBroker
+    364      16     6016      24720       0.52  14000   1 RuntimeBroker
+    166      11     2456      13964       0.11  15424   1 RuntimeBroker
+   1087      48    53048     135936      10.69  11348   1 SearchHost
+   1100      19    19328      34544              8772   0 SearchIndexer
+    266      10     1812      10580       0.03  12692   1 SearchProtocolHost
+    300      13     2732      14196       0.06   5696   1 SECOCL64
+    394      13     5108      14916              6284   0 SECOMN64
+      0       0      176      63016               140   0 Secure System
+    482      18     7704      24184             15032   0 SecurityHealthService
+    874      12     6288      12008              1072   0 services
+    705      31    21972      70552       0.78  15508   1 ShellExperienceHost
+    422      21    13140      47652       1.34   9408   1 ShellHost
+    782      23     8076      48124      11.06   9388   1 sihost
+     58       4     1152       1508               616   0 smss
+    326      36    33056      54368       1.92  20460   1 SpacePop
+    446      21     5600      18836              5440   0 spoolsv
+    646      33    40360      49728              5008   0 sqlceip
+    815      64   489272     141804             17328   0 sqlservr
+    159      11     2072      10312              6184   0 sqlwriter
+    969      42    57512     124948       4.66  11280   1 StartMenuExperienceHost
+    156      42     1776       9020               700   0 svchost
+    495      18    10028      31780              1216   0 svchost
+   1545      25    12472      41072              1240   0 svchost
+    190      11     2124      11376              1364   0 svchost
+   1450      22     8572      18320              1404   0 svchost
+    365      15     3444      13660              1464   0 svchost
+    106       9     1224       6708              1688   0 svchost
+    158      28     5528      10320              1724   0 svchost
+    158      12     1944       7292              1796   0 svchost
+    190      10     2072      10248              1824   0 svchost
+    420      10     2296      15084              1836   0 svchost
+    278      14     3332      13660              1848   0 svchost
+    233      11     2404      10112              1904   0 svchost
+    353      16     5868      16252              1980   0 svchost
+    198       7     1820       7708              2028   0 svchost
+    342      11     2728      11432              2036   0 svchost
+    207      11     2460      13436              2044   0 svchost
+   1086      21     6604      21024              2096   0 svchost
+    330      18     3460      11024              2156   0 svchost
+    284      12     3296      14644              2288   0 svchost
+    195      11     2116      11520              2444   0 svchost
+    171       9     1704       9352              2452   0 svchost
+    194      10     1876       9508              2568   0 svchost
+    128       8     1644       8740              2808   0 svchost
+    557      16     3420      14832              2932   0 svchost
+    337      10    17736      27680              3040   0 svchost
+    470      13    16480      20040              3212   0 svchost
+    250      13     3168      18496              3300   0 svchost
+    299       8     1452       7460              3308   0 svchost
+    865      15     9316      21760              3404   0 svchost
+    225      11     2524      11396              3424   0 svchost
+    189      10     1908       9332              3432   0 svchost
+    434      29     5060      21740              3720   0 svchost
+    397      14     3516      17556              3820   0 svchost
+    220      12     2412      11884              4644   0 svchost
+    347      18     4708      21996              4652   0 svchost
+    457      32    14376      21464              4688   0 svchost
+    396      16     2996      15012              5076   0 svchost
+    170       9     1972       8648              5176   0 svchost
+    276      15     3620      14652              5204   0 svchost
+    573      22     6868      23276              5268   0 svchost
+    220      14     2572      16748              5316   0 svchost
+    179      12     2516      13120              5520   0 svchost
+    182      10     1852       9884              5548   0 svchost
+    466      20    36848      49396              5640   0 svchost
+    711      31    25248      52496              5648   0 svchost
+    207      13     2840      13996              5752   0 svchost
+    220      11     2500      16976              5832   0 svchost
+    189      17     7092      12096              5904   0 svchost
+    140       7     1460       7408              6204   0 svchost
+    435      19     4760      26408              6228   0 svchost
+    137       9     1788       9632              6244   0 svchost
+    291      13     7100      19060              6460   0 svchost
+    174      10     2440      16392       0.13   6960   1 svchost
+    136       9     1632       9276              6976   0 svchost
+    226      12     2236      14832              7128   0 svchost
+    154       8     1616       8692              7644   0 svchost
+    138       9     1504       8712              8056   0 svchost
+    266      12     2748      11380              8524   0 svchost
+    456      20     5540      24236              8844   0 svchost
+    516      18     6884      27080              9016   0 svchost
+    546      20    12368      40700       3.98   9496   1 svchost
+    105       7     1288       7456       0.03   9712   1 svchost
+    328      16     5556      26936              9772   0 svchost
+    446      19     7772      37968       3.83   9776   1 svchost
+    352      17     4536      31240       3.95  10544   1 svchost
+    119       8     1320       7152             10956   0 svchost
+    259      15     3764      22052       0.36  11688   1 svchost
+    148       9     1864      13972       0.11  11868   1 svchost
+    596      20     6180      34476             12056   0 svchost
+    454      18     4736      26056             12880   0 svchost
+    184       9     1980       9768             13156   0 svchost
+    163      11     1900       9408             13588   0 svchost
+    220      11     3056      15588             13800   0 svchost
+    149       9     1648       8676             14996   0 svchost
+    413      24     3656      15748             16324   0 svchost
+    206      13     4712      16296             16420   0 svchost
+    300      12     3704      13148             16440   0 svchost
+    238      13     2832      14760       0.27  16580   1 svchost
+    211      12     2352      12624             16624   0 svchost
+    213      13     3136      13024             17416   0 svchost
+    118       8     2032       8408             17540   0 svchost
+    246      13     3184      15168             18500   0 svchost
+    207      12     5228      14680             19128   0 svchost
+    795      19    11848      26284       9.42   6156   1 SynTPEnh
+    341      14     3720      12868              2748   0 SynTPEnhService
+    231       9     2328       8348       0.03   6196   1 SynTPHelper
+    554      28   207260     114868              3536   0 SysInfoCap
+   5484       0       52        140                 4   0 System
+   1500      75   130536       2364       5.81   2196   1 SystemSettings
+    599      29    20348      60252      20.95  10484   1 TabTip
+    331      38     7908      23004       2.52   9860   1 taskhostw
+    495      23     7488      34952       0.22  20008   1 taskhostw
+    130       8     1448       7484              6264   0 TbtP2pShortcutService
+    934      34    24352      83496      32.41  13980   1 TextInputHost
+    286      15    18056      19036              5192   0 ThunderboltService
+    920      50    59084      71644              3492   0 TouchpointAnalyticsClientService
+    139       9     1728       9212              4496   0 unsecapp
+    143      10     1888      10596       0.05   7976   1 UserOOBEBroker
+    905      36    13032      70520       7.25  11832   1 Widgets
+    337      18     5256      25780       1.31  12124   1 WidgetService
+    888      37    28840     103840       3.47  14524   1 WindowsTerminal
+    161      11     1496       8268               532   0 wininit
+    288      13     2712      15792              1032   1 winlogon
+    140       9     1556       8560               748   0 wlanext
+    204      13     4268      14416              4728   0 WmiPrvSE
+    301      14     6292      17304             20472   0 WmiPrvSE
+    271      15     2864      14708              6320   0 WMIRegistrationService
+    207      17     2252      12964              2172   0 wpn
+    527      37    22812      37404      21.50  16660   1 wpscenter
+   1041      70    65540       8328      74.06  14824   1 wpscloudsvr
+    462      20     5496      26848              6272   0 wslservice
+    401      19     7804      21968              1528   0 WUDFHost
+    212       8     1584       7268              1856   0 WUDFHost
+    529      35   111092      42536              6376   0 XtuService
+
+
+PS C:\Users\mahes\OneDrive\Desktop\DevOpsSim> Get-Date
+
+20 September 2025 04:49:42 PM
+
+
+PS C:\Users\mahes\OneDrive\Desktop\DevOpsSim> Get-Date
+
+20 September 2025 04:57:43 PM
+
+
+PS C:\Users\mahes\OneDrive\Desktop\DevOpsSim> Get-Process
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+-------  ------    -----      -----     ------     --  -- -----------
+    223      13     3688      15384              9256   0 AggregatorHost
+    406      18     6060      20620              3384   0 AppHelperCap
+    394      21    14064      42676       0.36   2192   1 ApplicationFrameHost
+    300      14    17724      25604       0.44  21052   0 audiodg
+     92       7     2620       6744       0.06  18996   1 cmd
+    241      27    86064     112912      28.05   2656   1 Code
+    601      27   129328     169856      50.13   5360   1 Code
+    185      22    73280     144244       3.09   8680   1 Code
+    223      22    93212     134312       5.77  11828   1 Code
+    584     110   568260     565816      33.17  14844   1 Code
+    266      13    10968      33296       0.16  15920   1 Code
+    270      28    86596     117320       5.66  17812   1 Code
+    215      25   124516     164688       6.33  18300   1 Code
+    343      51   154204     160780      15.25  18564   1 Code
+   1076      58   105348     145160       7.95  19412   1 Code
+    195      20    28972     103432       1.09  19460   1 Code
+    198      22   187564     257804      26.91  20164   1 Code
+    181      21    43432     115756       0.67  20392   1 Code
+    356      21    15224      51344       0.75  20696   1 Code
+    509      48   228716     278708      78.03  20788   1 Code
+    118       9     1400       8516       0.22   1708   1 conhost
+     98       8     1256       6644       0.02   6016   1 conhost
+    134      10     1616       9264              7000   0 conhost
+    110       9     1380       8500       0.02   7324   1 conhost
+    110       9     1392       8476       0.06   7636   1 conhost
+    110       9     1380       8464       0.06  14016   1 conhost
+    140       9     1456      10348       0.02  18724   1 conhost
+    110       9     1380       8476       0.02  19556   1 conhost
+   1153     135    47344     166032      16.05  16136   1 Copilot
+    491      24    14848      53176       0.84  10456   1 CrossDeviceResume
+    888      30     3040       7756               720   1 csrss
+    876      29     2508       6204               948   0 csrss
+    554      22    10472      37444      70.27   3156   1 ctfmon
+    296      18    21892      19388              3416   0 DiagsCap
+   1542      56   115540     114172              1620   1 dwm
+    201      14     2048      12332       0.03  13640   1 EaseUSStartHelper
+    327      19     3784      16760              5688   0 ensserver
+    139       9     2072       8000              5912   0 esif_uf
+   5676     130   215544     355944     369.00   6036   1 explorer
+    216      11     2052      14012              5624   0 FiboConfigSrv
+    182      11     1876      10616              5616   0 FMService64
+     43      13     7496      13852              1252   1 fontdrvhost
+     43       7     1444       3864              1260   0 fontdrvhost
+    571      27    26656      35524              4540   0 HotKeyServiceUWP
+    205      12     2552      14964              4292   0 HPAudioAnalytics
+    605      27    39580      45568              3676   0 hpsvcsscan
+    122       7     1292       7124              5680   0 ibtsiva
+      0       0       60          8                 0   0 Idle
+    194      11     2312      12204              2660   0 igfxCUIService
+    341      16     3756      17532       1.20   9996   1 igfxEM
+    162      10     1584       9680              2020   0 IntelCpHDCPSvc
+    153       9     1636       9124              2296   0 IntelCpHeciSvc
+    144      10     1444       8264              5632   0 jhi_service
+    267      15     3012      16516              5732   0 LanWlanWwanSwitchingServiceUWP
+   1338      79    74024     151276      16.77  12072   1 LinkedIn
+    248      23     3148      10612              6452   0 lkads
+    254      23     3596      10876              7312   0 lktsrv
+    397      31     6836      18076              5780   0 LMS
+    754      31    20100      91044       1.38  11236   1 LockApp
+     62       8     1268       3984              1100   0 LsaIso
+   1801      26    11572      30516              1108   0 lsass
+      0       0     1988     537692              3480   0 Memory Compression
+    486      18    13292      23096              5744   0 MpDefenderCoreService
+    188      11     9020      21388       0.34   1268   1 msedge
+    818      28   145520     184392     115.09   2972   1 msedge
+    318      25    46120      93356       8.19   3780   1 msedge
+    462      32   104324     163392      19.77   7352   1 msedge
+   1727      80    95308     231364      78.66   7536   1 msedge
+    180       9     2228      10244       0.06  12752   1 msedge
+    216      18    16660      32756       0.27  13948   1 msedge
+    315      26    67504     120688      25.53  14456   1 msedge
+    260      15     9356      29524       0.56  14468   1 msedge
+    388      24    22452      54844      17.42  18384   1 msedge
+    151       9     2236       9588       0.03   1768   1 msedgewebview2
+   1167      45    39844     108828       9.91   4636   1 msedgewebview2
+    177      10    10252         20       0.48   4764   1 msedgewebview2
+    287      21    33556      46608       1.39   4848   1 msedgewebview2
+    209      13     8476      19420       0.30   6708   1 msedgewebview2
+    336      42   225072      60360      49.39   6940   1 msedgewebview2
+    731      40    55088      73836       4.48  10480   1 msedgewebview2
+   1236      45    47800      40828       8.92  11456   1 msedgewebview2
+    472      22    30592       3772       1.19  11932   1 msedgewebview2
+    150       9     2244       9172       0.11  12352   1 msedgewebview2
+    422      33    85180     124320      13.55  12536   1 msedgewebview2
+    260      20    20576      38072       0.63  12644   1 msedgewebview2
+    349      17    14564      42108       2.94  13036   1 msedgewebview2
+    591      23    50212      70916       4.17  13044   1 msedgewebview2
+    174      10     9728      18704       0.44  13132   1 msedgewebview2
+    175      10     8820       1908       0.36  13504   1 msedgewebview2
+    254      20    21208      35060       0.44  13984   1 msedgewebview2
+    671      23    84704       2116       7.97  14192   1 msedgewebview2
+    297      25    35864      70576       1.19  14988   1 msedgewebview2
+   1624      58    54932     131292      28.70  15516   1 msedgewebview2
+    207       9     2264       9668       0.06  15544   1 msedgewebview2
+    388      24    15524      43188      14.45  15720   1 msedgewebview2
+    774      31    92636      72904      12.42  15732   1 msedgewebview2
+    188      11     9684      18816       0.38  15780   1 msedgewebview2
+    849      54   265064     256804      63.47  15896   1 msedgewebview2
+    349      19    12356      19368       1.97  16744   1 msedgewebview2
+    351      18    13332       2184       3.44  17028   1 msedgewebview2
+   1252      46    42984       6456       7.78  17700   1 msedgewebview2
+    256      20    21456      38744       0.47  17768   1 msedgewebview2
+    151       9     2244       9620       0.08  17788   1 msedgewebview2
+    274      24    35036      43044       1.75  18024   1 msedgewebview2
+    479      30   136388        576      24.83  18136   1 msedgewebview2
+   1011     236   394112     288256              6436   0 MsMpEng
+    890      38    25632      32008       4.34   8008   1 ms-teams
+    144      13    34060      12372              5820   0 mysqld
+    507     302   598456      66260              7116   0 mysqld
+    242      15     4176      15232              3452   0 NetworkCap
+     50       5     1536       3556              6672   0 NgcIso
+    158      13     1996       8308              5932   0 niauth_daemon
+    241      22     3308      10732              7304   0 nidmsrv
+    216      12     5032      14220              9800   0 NisSrv
+    315     197  1065672    1002352     148.02  10592   1 node
+    176      30    90644      81832       1.41  11256   1 node
+    199      18    52172      40484       0.31  17896   1 node
+    223      32   103788      92140       1.50  20784   1 node
+    728      23    33544      36380              5704   0 OneApp.IGCC.WinService
+    209      12     2744      15056       0.83  20324   1 OpenConsole
+    623      30    66488      84392       2.17   2188   1 powershell
+    590      30    69264      87448       2.70   3788   1 powershell
+    617      30    69592      88564       1.66   7956   1 powershell
+    785      31    68036      89412       4.70  16648   1 powershell
+    637      30    73564      90900       2.03  17060   1 powershell
+    624      30    66544      84412       2.66  17256   1 powershell
+    252      28    27440      21012              9588   0 PresentationFontCache
+      0      20    14520      53200               184   0 Registry
+    357      14     3912      16228              3392   1 RtkAudUService64
+    477      18     5128      16948              6024   0 RtkAudUService64
+    142      10     2100      11600       0.17   1276   1 RuntimeBroker
+    305      16     6796      29272       1.72   4092   1 RuntimeBroker
+    432      20     5684      38408       1.03  11616   1 RuntimeBroker
+    726      32    14784      63336       4.02  11876   1 RuntimeBroker
+    596      27    11064      50676       3.78  13576   1 RuntimeBroker
+    364      16     6100      24732       0.53  14000   1 RuntimeBroker
+    166      11     2464      13980       0.13  15424   1 RuntimeBroker
+   1081      47    52632     135292      10.94  11348   1 SearchHost
+   1104      20    19412      33416              8772   0 SearchIndexer
+    264      10     1928      10572       0.09   5768   1 SearchProtocolHost
+    300      13     2676      14176       0.06   5696   1 SECOCL64
+    394      13     5048      14896              6284   0 SECOMN64
+      0       0      176      63016               140   0 Secure System
+    488      18     8044      29300             15032   0 SecurityHealthService
+    881      12     6320      12096              1072   0 services
+    705      31    21972      70552       0.78  15508   1 ShellExperienceHost
+    422      21    13168      47676       1.45   9408   1 ShellHost
+    783      23     8020      48092      11.88   9388   1 sihost
+    178      11     2688      12836       0.08  15232   1 smartscreen
+     58       4     1152       1508               616   0 smss
+    326      36    33004      53832       1.06   6972   1 SpacePop
+    446      21     5600      18848              5440   0 spoolsv
+    675      33    40356      49456              5008   0 sqlceip
+    817      64   489472     143240             17328   0 sqlservr
+    159      11     2072      10308              6184   0 sqlwriter
+    974      42    57504     125040       4.72  11280   1 StartMenuExperienceHost
+    156      42     1776       9020               700   0 svchost
+    571      25   168644     186772               932   0 svchost
+    495      18    10056      31736              1216   0 svchost
+   1542      25    12360      41080              1240   0 svchost
+    190      11     2176      11432              1364   0 svchost
+   1467      21     9012      18844              1404   0 svchost
+    357      15     3256      13592              1464   0 svchost
+    106       9     1224       6708              1688   0 svchost
+    158      28     5492      10288              1724   0 svchost
+    158      12     1944       7300              1796   0 svchost
+    199      10     2224      10300              1824   0 svchost
+    425      10     2524      15156              1836   0 svchost
+    286      14     3428      13740              1848   0 svchost
+    235      11     2428      10148              1904   0 svchost
+    355      16     5956      16308              1980   0 svchost
+    198       7     1860       7756              2028   0 svchost
+    342      11     2764      11480              2036   0 svchost
+    207      11     2460      13440              2044   0 svchost
+   1104      21     6808      21220              2096   0 svchost
+    331      18     3416      10892              2156   0 svchost
+    277      11     3100      14540              2288   0 svchost
+    203      11     2252      11592              2444   0 svchost
+    171       9     1708       9360              2452   0 svchost
+    210      10     2284       9792              2568   0 svchost
+    128       8     1644       8720              2808   0 svchost
+    562      16     3488      14888              2932   0 svchost
+    341      10    20056      30520              3040   0 svchost
+    425      27     9884      25656              3080   0 svchost
+    471      13    17180      20888              3212   0 svchost
+    259      14     3320      18592              3300   0 svchost
+    297       8     1452       7456              3308   0 svchost
+    899      15     9564      21968              3404   0 svchost
+    225      11     2388      11336              3424   0 svchost
+    189      10     1908       9328              3432   0 svchost
+    444      29     5160      21796              3720   0 svchost
+    403      13     3312      17424              3820   0 svchost
+    144       9     3876      12016              4444   0 svchost
+    217      12     2416      11892              4644   0 svchost
+    347      18     4740      22044              4652   0 svchost
+    460      33    14420      21472              4688   0 svchost
+    407      16     3164      15116              5076   0 svchost
+    170       9     1972       8656              5176   0 svchost
+    276      15     3588      14672              5204   0 svchost
+    582      22     7204      23584              5268   0 svchost
+    220      14     2540      16720              5316   0 svchost
+    179      12     2496      13132              5520   0 svchost
+    182      10     1856       9892              5548   0 svchost
+    475      20    39648      52876              5640   0 svchost
+    719      31    26168      53444              5648   0 svchost
+    209      12     2628      13864              5752   0 svchost
+    216      11     2364      16900              5832   0 svchost
+    189      17     7092      12096              5904   0 svchost
+    140       7     1460       7408              6204   0 svchost
+    440      19     4824      26432              6228   0 svchost
+    137       9     1788       9632              6244   0 svchost
+    289      13     7096      19080              6460   0 svchost
+    186      11     2556      16476       0.14   6960   1 svchost
+    136       9     1688       9292              6976   0 svchost
+    226      12     2232      14828              7128   0 svchost
+    154       8     1616       8696              7644   0 svchost
+    138       9     1504       8712              8056   0 svchost
+    270      12     2776      11368              8524   0 svchost
+    469      20     5660      24348              8844   0 svchost
+    529      18     7076      27444              9016   0 svchost
+    563      21    12456      40888       4.61   9496   1 svchost
+    105       7     1288       7456       0.03   9712   1 svchost
+    289      14     5568      27104              9772   0 svchost
+    459      19     7968      38632       4.05   9776   1 svchost
+    348      16     4492      31260       3.95  10544   1 svchost
+    119       8     1320       7152             10956   0 svchost
+    257      15     3668      22024       0.36  11688   1 svchost
+    148       9     1864      13972       0.11  11868   1 svchost
+    621      20     6304      34600             12056   0 svchost
+    455      19     4780      26080             12880   0 svchost
+    176       9     1992       9908             13156   0 svchost
+    163      11     1900       9404             13588   0 svchost
+    220      11     3056      15604             13800   0 svchost
+    149       9     1700       8704             14996   0 svchost
+    413      24     3656      15760             16324   0 svchost
+    206      13     4768      16316             16420   0 svchost
+    300      12     3704      13164             16440   0 svchost
+    242      13     2824      14712       0.27  16580   1 svchost
+    211      12     2352      12632             16624   0 svchost
+    222      13     3164      13044             17416   0 svchost
+    118       8     2032       8408             17540   0 svchost
+    254      13     3448      15548             18500   0 svchost
+    207      12     5292      14712             19128   0 svchost
+    791      19    11896      26408      13.05   6156   1 SynTPEnh
+    343      15     3748      12892              2748   0 SynTPEnhService
+    231       9     2328       8348       0.03   6196   1 SynTPHelper
+    559      28   207320     114988              3536   0 SysInfoCap
+   5435       0       52        140                 4   0 System
+   1500      75   130536       2364       5.81   2196   1 SystemSettings
+    598      29    20348      59876      21.20  10484   1 TabTip
+    329      38     7608      23112       2.63   9860   1 taskhostw
+    523      23     8360      35428       0.38  20008   1 taskhostw
+    130       8     1448       7484              6264   0 TbtP2pShortcutService
+    927      34    24248      83516      32.95  13980   1 TextInputHost
+    293      15    18056      19056              5192   0 ThunderboltService
+    799      51    59988      70952              3492   0 TouchpointAnalyticsClientService
+    143       9     1760       9232              4496   0 unsecapp
+    143      10     1888      10596       0.05   7976   1 UserOOBEBroker
+    925      37    13148      70716       7.75  11832   1 Widgets
+    339      19     5304      25820       1.33  12124   1 WidgetService
+    864      36    28636     103960       5.20  14524   1 WindowsTerminal
+    161      11     1496       8268               532   0 wininit
+    292      13     2792      15816              1032   1 winlogon
+    142       9     1588       8580               748   0 wlanext
+    202      12     4648      14952              4728   0 WmiPrvSE
+    309      15     9388      20244             20472   0 WmiPrvSE
+    271      15     2864      14708              6320   0 WMIRegistrationService
+    527      37    22812      37372      25.27  16660   1 wpscenter
+   1047      72    65608      23940      79.70  14824   1 wpscloudsvr
+    462      20     5480      26840              6272   0 wslservice
+    401      19     7804      21964              1528   0 WUDFHost
+    212       8     1584       7268              1856   0 WUDFHost
+    529      35   111092      42540              6376   0 XtuService
+
+
