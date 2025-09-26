@@ -1,9 +1,9 @@
 export const stepReferences: Record<string, Record<string, string>> = {
   'Source Code': {
-    'Fetch code from repository': 'https://www.atlassian.com/git/tutorials/syncing', // working Git tutorial
+    'Fetch code from repository': 'https://www.w3schools.com/git/git_pull_from_remote.asp', // working Git tutorial
     'Clone repository': 'https://git-scm.com/docs/git-clone',
-    'Checkout branch': 'https://git-scm.com/docs/git-checkout',
-    'Verify commit hash': 'https://www.git-scm.com/book/en/v2/Git-Tools-Revision-Selection',
+    'Checkout branch': 'https://www.geeksforgeeks.org/git/git-checkout-branch/',
+    'Verify commit hash': 'https://www.geeksforgeeks.org/git/how-to-retrieve-the-hash-for-the-current-commit-in-git/',
     'Show commit details': 'https://git-scm.com/docs/git-show',
   },
   Preprocessing: {
