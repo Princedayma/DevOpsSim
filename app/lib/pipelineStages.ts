@@ -1,33 +1,116 @@
-export const pipelineStages = [
-  {
-    id: 'source',
+/**
+ * Defines the structure for a single sub-step within a pipeline stage.
+ */
+export interface PipelineSubStep {
+  description: string;
+  learnMoreUrl: string;
+}
+
+/**
+ * Defines the structure for a main pipeline stage's data.
+ */
+export interface PipelineStageData {
+  label: string;
+  description: string;
+  subSteps: PipelineSubStep[];
+}
+
+/**
+ * The single, comprehensive source of truth for all pipeline stage definitions.
+ * This is a Record (a dictionary/map) for direct, error-proof key-based lookups.
+ */
+export const pipelineStageData: Record<string, PipelineStageData> = {
+  source: {
     label: 'Source',
     description: 'Fetch code from repository.',
-    learnMoreUrl: 'https://www.atlassian.com/continuous-delivery/continuous-integration/source-code-management',
+    subSteps: [
+      { description: 'Fetch code', learnMoreUrl: 'https://www.w3schools.com/git/git_pull_from_remote.asp' },
+      { description: 'Checkout branch', learnMoreUrl: 'https://www.geeksforgeeks.org/git/git-checkout-branch/' },
+    ],
   },
-  {
-    id: 'preprocessing',
-    label: 'Preprocessing',
-    description: 'Prepare code and environment for build.',
-    learnMoreUrl: 'https://www.geeksforgeeks.org/data-preprocessing-machine-learning/',
-  },
-  {
-    id: 'build',
+  build: {
     label: 'Build',
     description: 'Compile and package the application.',
-    learnMoreUrl: 'https://www.jenkins.io/doc/book/pipeline/build/',
+    subSteps: [
+      { description: 'Install dependencies', learnMoreUrl: 'https://docs.npmjs.com/cli/v10/commands/npm-install' },
+      { description: 'Compile source code', learnMoreUrl: 'https://en.wikipedia.org/wiki/Compiler' },
+      { description: 'Run linter', learnMoreUrl: 'https://eslint.org/docs/latest/user-guide/getting-started' },
+    ],
   },
-  {
-    id: 'test',
+  'build-ios': {
+    label: 'Build iOS',
+    description: 'Compile and package the iOS application.',
+    subSteps: [
+        { description: 'Install Pods', learnMoreUrl: 'https://guides.cocoapods.org/using/getting-started.html' },
+        { description: 'Compile Swift/Objective-C', learnMoreUrl: 'https://www.swift.org/documentation/swift-compiler/' },
+        { description: 'Sign application', learnMoreUrl: 'https://docs.codemagic.io/yaml-code-signing/signing-ios/' },
+    ],
+  },
+  'build-android': {
+    label: 'Build Android',
+    description: 'Compile and package the Android application.',
+    subSteps: [
+        { description: 'Run Gradle sync', learnMoreUrl: 'https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Sync.html' },
+        { description: 'Build APK/AAB', learnMoreUrl: 'https://developer.android.com/studio/build' },
+        { description: 'Sign application', learnMoreUrl: 'https://developer.android.com/studio/publish/app-signing' },
+    ],
+  },
+  test: {
     label: 'Test',
     description: 'Run automated tests.',
-    learnMoreUrl: 'https://www.guru99.com/continuous-testing.html',
+    subSteps: [
+      { description: 'Run unit tests', learnMoreUrl: 'https://en.wikipedia.org/wiki/Unit_testing' },
+      { description: 'Run integration tests', learnMoreUrl: 'https://en.wikipedia.org/wiki/Integration_testing' },
+    ],
   },
-  {
-    id: 'deploy',
+  deploy: {
     label: 'Deploy',
     description: 'Deploy application to environment.',
-    learnMoreUrl: 'https://www.redhat.com/en/topics/devops/what-is-ci-cd',
+    subSteps: [
+      { description: 'Provision infrastructure', learnMoreUrl: 'https://www.tierpoint.com/blog/infrastructure-provisioning/' },
+      { description: 'Upload artifacts', learnMoreUrl: 'https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts' },
+      { description: 'Verify deployment', learnMoreUrl: 'https://cloud.google.com/deploy/docs/verify-deployment' },
+    ],
   },
-  // Add more stages as needed
-];
+  monitor: {
+    label: 'Monitor',
+    description: 'Monitor application health and performance.',
+    subSteps: [
+      { description: 'Check application health', learnMoreUrl: 'https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html' },
+      { description: 'Analyze performance metrics', learnMoreUrl: 'https://www.geeksforgeeks.org/machine-learning/metrics-for-machine-learning-model/' },
+    ],
+  },
+  data: {
+      label: 'Data Collection',
+      description: 'Gather and prepare data for model training.',
+      subSteps: [
+          { description: 'Ingest data from sources', learnMoreUrl: 'https://en.wikipedia.org/wiki/Data_ingestion' },
+          { description: 'Validate data quality', learnMoreUrl: 'https://en.wikipedia.org/wiki/Data_validation' },
+      ],
+  },
+  preprocess: {
+      label: 'Data Preprocessing',
+      description: 'Clean and transform data.',
+      subSteps: [
+          { description: 'Clean data', learnMoreUrl: 'https://en.wikipedia.org/wiki/Data_cleansing' },
+          { description: 'Feature engineering', learnMoreUrl: 'https://en.wikipedia.org/wiki/Feature_engineering' },
+      ],
+  },
+  train: {
+      label: 'Model Training',
+      description: 'Train the machine learning model.',
+      subSteps: [
+          { description: 'Train model on dataset', learnMoreUrl: 'https://en.wikipedia.org/wiki/Training,_validation,_and_test_data_sets' },
+          { description: 'Tune hyperparameters', learnMoreUrl: 'https://en.wikipedia.org/wiki/Hyperparameter_optimization' },
+      ],
+  },
+  evaluate: {
+      label: 'Model Evaluation',
+      description: 'Evaluate the performance of the trained model.',
+      subSteps: [
+          { description: 'Evaluate with test set', learnMoreUrl: 'https://www.geeksforgeeks.org/machine-learning/metrics-for-machine-learning-model/' },
+          { description: 'Generate performance metrics', learnMoreUrl: 'https://docs.ragas.io/en/v0.1.21/getstarted/testset_generation.html#get-started-testset-generation' },
+      ],
+  },
+};
+

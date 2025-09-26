@@ -49,7 +49,9 @@ export interface SimulationState {
   speed: number;
   logs: LogEntry[];
   errors: string[];
+  progress?: number; // <-- Add this line
 }
+
 
 export interface LogEntry {
   id: string;
@@ -57,6 +59,7 @@ export interface LogEntry {
   level: 'info' | 'warning' | 'error' | 'success';
   message: string;
   nodeId?: string;
+  learnMoreUrl?: string; // <-- This property is added
 }
 
 // Store Types

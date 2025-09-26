@@ -11,8 +11,6 @@ import { PipelineVisualization } from '../components/PipelineVisualization';
 import { PipelineStats } from '../components/PipelineStats';
 import { useSimulation } from '../hooks/useSimulation';
 import { v4 as uuidv4 } from 'uuid';
-import { stepReferences } from '../lib/stepReferences';
-import { pipelineStages } from '../lib/pipelineStages';
 
 export default function Simulator() {
   const searchParams = useSearchParams();
@@ -21,7 +19,6 @@ export default function Simulator() {
   const {
     currentPipeline,
     simulationState,
-    selectedApplicationType,
     setCurrentPipeline,
     setSelectedApplicationType,
     setIsSimulationMode,
@@ -30,7 +27,6 @@ export default function Simulator() {
   const {
     startSimulation,
     pauseSimulation,
-    resumeSimulation,
     stopSimulation,
     resetSimulation,
     updateSpeed,
@@ -42,9 +38,6 @@ export default function Simulator() {
 
   const [isInitialized, setIsInitialized] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-
-  // Create a stage map from pipelineStages
-  const stageMap = Object.fromEntries(pipelineStages.map(s => [s.id, s]));
 
   useEffect(() => {
     if (type && !isInitialized) {
@@ -61,16 +54,17 @@ export default function Simulator() {
         setIsInitialized(true);
       }
     }
-  }, [type, isInitialized, setSelectedApplicationType, setCurrentPipeline, setIsInitialized]);
+  }, [type, isInitialized, setSelectedApplicationType, setCurrentPipeline]);
 
-  const handleStartSimulation = () => {
-    if (!currentPipeline) return;
-    setIsSimulationMode(true);
-    startSimulation();
+  const handleStartOrPause = () => {
+    if (isRunning) {
+      pauseSimulation();
+    } else {
+      setIsSimulationMode(true);
+      startSimulation();
+    }
   };
 
-  const handlePauseSimulation = () => pauseSimulation();
-  const handleResumeSimulation = () => resumeSimulation();
   const handleStopSimulation = () => stopSimulation();
   const handleResetSimulation = () => resetSimulation();
   const handleSpeedChange = (speed: number) => updateSpeed(speed);
@@ -116,23 +110,17 @@ export default function Simulator() {
 
           {/* Simulation Controls */}
           <div className="flex items-center gap-2">
-            {!isRunning ? (
-              <button
-                onClick={handleStartSimulation}
-                className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
-              >
-                <Play className="w-4 h-4" />
-                Start
-              </button>
-            ) : (
-              <button
-                onClick={handlePauseSimulation}
-                className="flex items-center gap-2 bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
-              >
-                <Pause className="w-4 h-4" />
-                Pause
-              </button>
-            )}
+            <button
+              onClick={handleStartOrPause}
+              className={`flex items-center gap-2 text-white px-4 py-2 rounded-lg transition-colors ${
+                isRunning 
+                ? 'bg-yellow-600 hover:bg-yellow-700' 
+                : 'bg-green-600 hover:bg-green-700'
+              }`}
+            >
+              {isRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              {isRunning ? 'Pause' : 'Start'}
+            </button>
 
             <button
               onClick={handleStopSimulation}
@@ -187,24 +175,6 @@ export default function Simulator() {
                   <option value={4}>4x (Very Fast)</option>
                 </select>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Failure Rate
-                </label>
-                <input type="range" min="0" max="50" defaultValue="10" className="w-full" />
-                <p className="text-xs text-gray-500 mt-1">10% chance of failure</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Auto-advance
-                </label>
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">Automatically advance steps</span>
-              </div>
             </div>
           </motion.div>
         )}
@@ -214,20 +184,16 @@ export default function Simulator() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Pipeline Visualization</h2>
-
               <PipelineVisualization pipeline={currentPipeline} className="h-96" />
             </div>
           </div>
 
           {/* Simulation Info & Logs */}
           <div className="space-y-6">
-            {/* Pipeline Statistics */}
             <PipelineStats pipeline={currentPipeline} />
 
-            {/* Simulation Status */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Simulation Status</h2>
-
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Status:</span>
@@ -237,14 +203,12 @@ export default function Simulator() {
                     {isRunning ? 'Running' : 'Stopped'}
                   </span>
                 </div>
-
                 <div className="flex justify-between">
                   <span className="text-gray-600">Progress:</span>
                   <span className="font-semibold text-gray-900">
                     {currentStep} / {totalSteps}
                   </span>
                 </div>
-
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-blue-600 h-2 rounded-full transition-all duration-300"
@@ -257,68 +221,44 @@ export default function Simulator() {
             {/* Logs */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Simulation Logs</h2>
-
-              {simulationState.logs.length === 0 ? (
-                <p className="text-gray-500 text-sm">
-                  No logs yet. Start the simulation to see logs.
-                </p>
-              ) : (
-                simulationState.logs.map((log) => {
-                  const match = log.message.match(/^\[(.+?)\]\s*(.+)$/);
-                  let learnMoreUrl: string | undefined;
-
-                  if (match) {
-                    const stage = match[1].trim();
-                    const step = match[2].trim();
-
-                    // First try stepReferences lookup
-                    learnMoreUrl = stepReferences[stage]?.[step];
-
-                    // Fallback: case-insensitive step match
-                    if (!learnMoreUrl && stepReferences[stage]) {
-                      const key = Object.keys(stepReferences[stage]).find(
-                        (k) => k.toLowerCase() === step.toLowerCase()
-                      );
-                      if (key) learnMoreUrl = stepReferences[stage][key];
-                    }
-                  }
-
-                  // Additional check: nodeId with pipelineStages
-                  if (log.nodeId && stageMap[log.nodeId]?.learnMoreUrl) {
-                    learnMoreUrl = stageMap[log.nodeId].learnMoreUrl;
-                  }
-
-                  return (
+              <div className="space-y-1 h-96 overflow-y-auto pr-2">
+                {simulationState.logs.length === 0 ? (
+                  <p className="text-gray-500 text-sm">
+                    No logs yet. Start the simulation to see logs.
+                  </p>
+                ) : (
+                  simulationState.logs.map((log) => (
                     <div
                       key={log.id}
-                      className={`text-sm p-2 rounded ${
-                        log.level === 'error'
-                          ? 'bg-red-50 text-red-700'
-                          : log.level === 'warning'
-                          ? 'bg-yellow-50 text-yellow-700'
-                          : log.level === 'success'
-                          ? 'bg-green-50 text-green-700'
-                          : 'bg-gray-50 text-gray-700'
+                      className={`text-sm p-2 rounded flex justify-between items-center ${
+                        log.level === 'error' ? 'bg-red-50 text-red-700'
+                        : log.level === 'warning' ? 'bg-yellow-50 text-yellow-700'
+                        : log.level === 'success' ? 'bg-green-50 text-green-700'
+                        : 'bg-gray-50 text-gray-700'
                       }`}
                     >
-                      <span className="text-xs text-gray-500">
-                        {log.timestamp.toLocaleTimeString()}
-                      </span>
-                      <span className="ml-2">{log.message}</span>
-                      {learnMoreUrl && (
+                      <div>
+                        <span className="text-xs text-gray-500 mr-2">
+                          {log.timestamp.toLocaleTimeString()}
+                        </span>
+                        <span>{log.message}</span>
+                      </div>
+                      {/* --- THIS IS THE FIX --- */}
+                      {/* Directly use the learnMoreUrl from the log object */}
+                      {log.learnMoreUrl && (
                         <a
-                          href={learnMoreUrl}
+                          href={log.learnMoreUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="ml-2 text-blue-600 underline"
+                          className="text-blue-600 underline font-semibold text-xs flex-shrink-0 ml-4"
                         >
                           Learn more
                         </a>
                       )}
                     </div>
-                  );
-                })
-              )}
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </div>
