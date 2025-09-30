@@ -3,6 +3,10 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useAppStore } from '../store/useAppStore';
 import { SimulationEngine, SimulationStep } from '../lib/simulationEngine';
+import { v4 as uuidv4 } from 'uuid';
+import { stepReferences } from '../lib/stepReferences';  // correct path lagao
+
+
 
 export function useSimulation() {
   const simulationRef = useRef<SimulationEngine | null>(null);
@@ -37,7 +41,7 @@ export function useSimulation() {
           // Get the latest status from the engine and update the UI state
           const status = simulationRef.current.getStatus();
           setSimulationState({
-            currentStep: status.currentStep,
+            currentStep: status.currentStep + 1,
             progress: status.progress,
           });
         }
@@ -96,12 +100,75 @@ export function useSimulation() {
   }, [simulationState.isRunning, setSimulationState]);
 
   // Stop simulation
+  // const stopSimulation = useCallback(() => {
+  //   if (simulationRef.current) {
+  //     simulationRef.current.stop();
+  //     setSimulationState({ isRunning: false, currentStep: 0, progress: 0 });
+  //   }
+  // }, [setSimulationState]);
+
   const stopSimulation = useCallback(() => {
-    if (simulationRef.current) {
-      simulationRef.current.stop();
-      setSimulationState({ isRunning: false, currentStep: 0, progress: 0 });
-    }
-  }, [setSimulationState]);
+  if (simulationRef.current) {
+    simulationRef.current.stop();
+    setSimulationState(prevState => ({
+      ...prevState,
+      isRunning: false,
+      currentStep: 0,
+      progress: 0
+    }));
+  }
+}, [setSimulationState]);
+
+
+
+const failSimulation = useCallback(() => {
+  if (simulationRef.current && simulationState.isRunning) {
+    simulationRef.current.failSimulation();
+
+    const updatedPipeline = simulationRef.current.getPipeline();
+    setCurrentPipeline(updatedPipeline);
+
+    const failedCount = updatedPipeline.nodes.filter((n) => n.status === 'failed').length;
+
+    setSimulationState((prev) => ({
+      ...prev,
+      isRunning: false,
+      status: 'failed',
+      failedSteps: failedCount,
+    }));
+
+    // Primary failure log
+    addLog({
+      id: uuidv4(),
+      type: 'error',
+      step: simulationState.currentStep,
+      message: 'Pipeline failed due to manual Failure & Recovery.',
+      timestamp: new Date().toLocaleString(),
+    });
+
+    // Backend failure detailed logs array
+    const failureSteps = [
+      { message: 'Detect Exit Code', learnMoreKey: 'Detect Exit Code' },
+      { message: 'Halt Job Execution', learnMoreKey: 'Halt Job Execution' },
+      { message: 'Log Error', learnMoreKey: 'Log Error' },
+      { message: 'Execute Conditional Steps', learnMoreKey: 'Execute Conditional Steps' },
+      { message: 'Cleanup Runner Environment (Added Detail)', learnMoreKey: 'Cleanup Runner Environment' },
+      { message: 'Cancel Dependents', learnMoreKey: 'Cancel Dependents' },
+      { message: 'Final Workflow Status', learnMoreKey: 'Final Workflow Status' },
+    ];
+
+    failureSteps.forEach(({ message, learnMoreKey }) => {
+      const learnMoreUrl = stepReferences.FailureRecovery?.[learnMoreKey];
+      addLog({
+        id: uuidv4(),
+        type: 'error',
+        message,
+        timestamp: new Date().toLocaleString(),
+        learnMoreUrl,
+      });
+    });
+  }
+}, [simulationState, setSimulationState, setCurrentPipeline, addLog]);
 
   // Reset simulation
   const resetSimulation = useCallback(() => {
@@ -120,6 +187,7 @@ export function useSimulation() {
   }, [setCurrentPipeline, setSimulationState, clearLogs]);
 
   return {
+    failSimulation,  
     startSimulation,
     pauseSimulation,
     stopSimulation,

@@ -12,8 +12,8 @@ interface PipelineStatsProps {
 export function PipelineStats({ pipeline, className = '' }: PipelineStatsProps) {
   if (!pipeline) {
     return (
-      <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${className}`}>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Pipeline Statistics</h3>
+      <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-4 ${className}`}>
+        <h3 className="text-lg font-semibold text-gray-900 mb-3">Pipeline Statistics</h3>
         <p className="text-gray-500 text-sm">No pipeline data available</p>
       </div>
     );
@@ -25,6 +25,7 @@ export function PipelineStats({ pipeline, className = '' }: PipelineStatsProps) 
     failed: pipeline.nodes.filter(node => node.data.status === 'failed').length,
     running: pipeline.nodes.filter(node => node.data.status === 'running').length,
     pending: pipeline.nodes.filter(node => node.data.status === 'pending').length,
+    // failed: pipeline.nodes.filter(n => n.status === 'failed').length,
   };
 
   const totalDuration = pipeline.nodes.reduce((sum, node) => {
@@ -63,8 +64,8 @@ export function PipelineStats({ pipeline, className = '' }: PipelineStatsProps) 
   ];
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${className}`}>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Pipeline Statistics</h3>
+    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 p-2 ${className}`}>
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">Pipeline Statistics</h3>
       
       <div className="grid grid-cols-2 gap-4">
         {statItems.map((item, index) => {
@@ -76,7 +77,7 @@ export function PipelineStats({ pipeline, className = '' }: PipelineStatsProps) 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+              className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg"
             >
               <div className={`w-8 h-8 rounded-full ${item.bgColor} flex items-center justify-center`}>
                 <IconComponent className={`w-4 h-4 ${item.color}`} />
@@ -93,7 +94,7 @@ export function PipelineStats({ pipeline, className = '' }: PipelineStatsProps) 
       </div>
 
       {/* Progress Bar */}
-      <div className="mt-6">
+      <div className="mt-5">
         <div className="flex justify-between text-sm text-gray-600 mb-2">
           <span>Overall Progress</span>
           <span>{Math.round((stats.completed / stats.total) * 100)}%</span>
