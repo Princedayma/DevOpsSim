@@ -28,4 +28,16 @@ export const stepReferences: Record<string, Record<string, string>> = {
     'Run deployment scripts': 'https://www.jenkins.io/doc/book/pipeline/deployment/',
     'Verify deployment': 'https://www.redhat.com/en/topics/devops/what-is-ci-cd',
   },
+
+    FailureRecovery: {
+  'Detect Exit Code': 'https://en.wikipedia.org/wiki/Exit_status',
+  'Halt Job Execution': 'https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/#catcherror-catch-error',
+  'Log Error': 'https://en.wikipedia.org/wiki/Error_log',
+  'Execute Conditional Steps': 'https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#if-expression-syntax-for-github-actions',
+  'Cleanup Runner Environment': 'https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idcleanup',
+  'Cancel Dependents': 'https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds',
+  'Final Workflow Status': 'https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/about-workflow-logs',
+}
+
+
 };

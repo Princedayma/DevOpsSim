@@ -5,7 +5,6 @@ import {
   ReactFlow,
   Background,
   Controls,
-  MiniMap,
   useNodesState,
   useEdgesState,
   addEdge,
@@ -127,9 +126,9 @@ export function PipelineVisualization({
         defaultViewport={{ x: 0, y: 0, zoom: 1 }}
         className="bg-gray-50"
       >
-        <Background color="#e5e7eb" gap={20} />
+        {/* <Background color="#e5e7eb" gap={20} /> */}
         <Controls />
-        <MiniMap
+        {/* <MiniMap
           nodeColor={(node) => {
             const status = node.data?.status;
             switch (status) {
@@ -142,7 +141,7 @@ export function PipelineVisualization({
           nodeStrokeWidth={3}
           zoomable
           pannable
-        />
+        /> */}
       </ReactFlow>
     </div>
   );

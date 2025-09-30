@@ -152,22 +152,32 @@ export class SimulationEngine {
   }
 
   private failNodeExecution(node: PipelineNode, duration: number) {
-    const errorMessages = [ 'Build failed: Compilation error', 'Tests failed: 3 assertions failed', 'Deployment failed: Connection timeout' ];
-    const randomError = errorMessages[Math.floor(Math.random() * errorMessages.length)];
-    this.updateNodeStatus(node.id, 'failed', duration, randomError);
-    
-    this.log('error', `${node.data.label} failed: ${randomError}`, node.id);
+  // Stage-specific error messages
+  const stageFailureMessages: Record<string, string> = {
+    build: 'Build failed',
+    test: 'Tests failed',
+    deploy: 'Deployment failed',
+    monitor: 'Monitor failed',  // Add monitor error here!
+  };
+  // node.id ya node.type ke hisaab se message do
+  const errorMessage =
+    stageFailureMessages[node.id] || stageFailureMessages[node.type] || 'Step failed';
 
-    this.onStepComplete?.({
-      nodeId: node.id,
-      action: 'fail',
-      timestamp: new Date(),
-      duration,
-      error: randomError,
-    });
-    this.isRunning = false; 
-    this.log('error', 'Pipeline execution failed.');
-  }
+  this.updateNodeStatus(node.id, 'failed', duration, errorMessage);
+  this.log('error', `${node.data.label} failed: ${errorMessage}`, node.id);
+
+  this.onStepComplete?.({
+    nodeId: node.id,
+    action: 'fail',
+    timestamp: new Date(),
+    duration,
+    error: errorMessage
+  });
+
+  this.isRunning = false;
+  this.log('error', 'Pipeline execution failed.');
+}
+
 
   private updateNodeStatus(
     nodeId: string, 
@@ -185,6 +195,31 @@ export class SimulationEngine {
       };
     }
   }
+
+public failSimulation() {
+  if (!this.isRunning) return;
+
+  this.isRunning = false;
+  this.isPaused = false;
+
+  // Current node failure mark karo
+  const node = this.pipeline.nodes[this.currentStep];
+  if (node) {
+    this.failNodeExecution(node, 0); // Fail current node with 0 duration
+    node.status = 'failed';           // Node state me failed set karo
+  }
+
+  this.pipeline.status = 'failed';
+
+  // Overall pipeline failure log
+  this.log('error', 'Pipeline execution failed due to manual Failure & Recovery.');
+
+  // Pending timeouts clear karo
+  this.stepTimeouts.forEach(clearTimeout);
+  this.stepTimeouts = [];
+}
+
+
 
   private completeSimulation() {
     this.isRunning = false;

@@ -41,9 +41,22 @@ const statusIcons = {
   skipped: AlertCircle,
 };
 
+export interface PipelineNode {
+  id: string;
+  label: string;
+  type: string;
+  duration?: number;
+  error?: string;
+  // Aur jitni bhi properties hain
+  status?: 'pending' | 'running' | 'success' | 'failed' | 'skipped'; // Yeh line add karo
+}
+
+
 export const PipelineNode = memo(({ data, selected }: NodeProps<PipelineNodeType['data']>) => {
   const IconComponent = nodeIcons[data.type] || Settings;
   const StatusIcon = statusIcons[data.status];
+  const statusColorClass = statusColors[data.status];
+
   
   return (
     <motion.div

@@ -5,14 +5,14 @@ import { Target, Users, Lightbulb, Code, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 export default function About() {
-  const teamMembers = [
-    {
-      name: 'Prince Dayma',
-      role: 'Project Creator',
-      description: 'Computer Science student passionate about DevOps education',
-      avatar: '👨‍💻',
-    },
-  ];
+  // const teamMembers = [
+  //   {
+  //     name: 'Prince Dayma',
+  //     role: 'Project Creator',
+  //     description: 'Computer Science student passionate about DevOps education',
+  //     avatar: '👨‍💻',
+  //   },
+  // ];
 
   const values = [
     {
@@ -177,12 +177,12 @@ export default function About() {
         </div>
 
         {/* Team Section */}
-        <div className="mb-16">
+        {/* <div className="mb-16">
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
             Meet the Creator
-          </h2>
+          </h2> */}
           
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={index}
@@ -203,8 +203,8 @@ export default function About() {
                 </p>
               </motion.div>
             ))}
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
 
         {/* Technology Stack */}
         <div className="mb-16">
