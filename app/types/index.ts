@@ -21,7 +21,7 @@ export interface PipelineEdge {
 }
 
 export interface Pipeline {
-  id: string;
+  id:string;
   name: string;
   description: string;
   applicationType: 'web' | 'mobile' | 'ml';
@@ -30,6 +30,12 @@ export interface Pipeline {
   status: 'idle' | 'running' | 'completed' | 'failed';
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface PipelineArtifact {
+  name: string;
+  type: 'binary' | 'report' | 'log' | 'image';
+  size: string;
 }
 
 // Application Types
@@ -49,9 +55,8 @@ export interface SimulationState {
   speed: number;
   logs: LogEntry[];
   errors: string[];
-  progress?: number; // <-- Add this line
+  progress?: number;
 }
-
 
 export interface LogEntry {
   id: string;
@@ -59,7 +64,8 @@ export interface LogEntry {
   level: 'info' | 'warning' | 'error' | 'success';
   message: string;
   nodeId?: string;
-  learnMoreUrl?: string; // <-- This property is added
+  learnMoreUrl?: string;
+  showResultUrl?: string; // <-- This is the new property for your custom link
 }
 
 // Store Types

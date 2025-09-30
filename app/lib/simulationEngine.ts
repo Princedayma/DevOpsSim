@@ -104,22 +104,22 @@ export class SimulationEngine {
     this.updateNodeStatus(node.id, 'running');
 
     const currentStageData = pipelineStageData[node.id];
-    const subSteps = currentStageData?.subSteps || [];
-
-    for (const subStep of subSteps) {
-      if (!this.isRunning || this.isPaused) return;
-      this.log('info', `[${node.id}] ${subStep.description}`, node.id, subStep.learnMoreUrl);
-      await new Promise(res => setTimeout(res, 400));
+    if (currentStageData) {
+        for (const subStep of currentStageData.subSteps) {
+            if (!this.isRunning || this.isPaused) return;
+            this.log('info', `[${node.id}] ${subStep.description}`, node.id, subStep.learnMoreUrl);
+            await new Promise(res => setTimeout(res, 400));
+        }
     }
     
     if (!this.isRunning || this.isPaused) return;
 
-    // FINAL FIX: No learnMoreUrl is passed for the main "Starting..." log.
     this.log('info', `Starting ${node.data.label}`, node.id);
 
     const duration = getRandomDelay(1000, 3000);
     const timeout = setTimeout(() => {
       if (this.isPaused || !this.isRunning) return;
+      // The random failure logic has been removed.
       this.completeNodeExecution(node, duration);
     }, duration);
     this.stepTimeouts.push(timeout);
@@ -127,9 +127,15 @@ export class SimulationEngine {
 
   private completeNodeExecution(node: PipelineNode, duration: number) {
     this.updateNodeStatus(node.id, 'success', duration);
+    const stageData = pipelineStageData[node.id];
 
-    // FINAL FIX: No learnMoreUrl is passed for the main "Completed..." log.
-    this.log('success', `${node.data.label} completed successfully`, node.id);
+    this.log(
+      'success',
+      `${node.data.label} completed successfully`,
+      node.id,
+      undefined, // No 'learnMoreUrl' for this log
+      stageData?.showResultUrl // The 'showResultUrl' for the completion log
+    );
 
     this.onStepComplete?.({
       nodeId: node.id,
@@ -142,15 +148,14 @@ export class SimulationEngine {
       if (!this.isRunning || this.isPaused) return;
       this.currentStep++;
       this.executeNextStep();
-    }, 0);
+    }, 100);
   }
 
   private failNodeExecution(node: PipelineNode, duration: number) {
-    const errorMessages = [ 'Build failed', 'Tests failed', 'Deployment failed' ];
+    const errorMessages = [ 'Build failed: Compilation error', 'Tests failed: 3 assertions failed', 'Deployment failed: Connection timeout' ];
     const randomError = errorMessages[Math.floor(Math.random() * errorMessages.length)];
     this.updateNodeStatus(node.id, 'failed', duration, randomError);
     
-    // FINAL FIX: No learnMoreUrl for failure messages either.
     this.log('error', `${node.data.label} failed: ${randomError}`, node.id);
 
     this.onStepComplete?.({
@@ -188,8 +193,8 @@ export class SimulationEngine {
     this.onComplete?.();
   }
 
-  private log(level: LogEntry['level'], message: string, nodeId?: string, learnMoreUrl?: string) {
-    this.onLog?.({ level, message, nodeId, learnMoreUrl });
+  private log(level: LogEntry['level'], message: string, nodeId?: string, learnMoreUrl?: string, showResultUrl?: string) {
+    this.onLog?.({ level, message, nodeId, learnMoreUrl, showResultUrl });
   }
 
   getPipeline(): Pipeline {

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Play, Pause, Square, RotateCcw, Settings } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, Play, Pause, Square, RotateCcw, Settings, X, File, TestTube2, FileImage, Server } from 'lucide-react';
 import Link from 'next/link';
 import { useAppStore } from '../store/useAppStore';
 import { applicationTypes } from '../lib/applicationTypes';
@@ -11,6 +11,81 @@ import { PipelineVisualization } from '../components/PipelineVisualization';
 import { PipelineStats } from '../components/PipelineStats';
 import { useSimulation } from '../hooks/useSimulation';
 import { v4 as uuidv4 } from 'uuid';
+import { pipelineStageData } from '../lib/pipelineStages';
+import { PipelineNode, PipelineArtifact } from '../types';
+
+// --- NEW COMPONENT: Stage Details Modal ---
+const StageDetailsModal = ({ stageId, onClose }: { stageId: string, onClose: () => void }) => {
+  const stageData = pipelineStageData[stageId];
+  if (!stageData) return null;
+
+  const getIconForArtifact = (type: PipelineArtifact['type']) => {
+    switch (type) {
+      case 'report': return <TestTube2 className="w-5 h-5 text-purple-500" />;
+      case 'binary': return <Server className="w-5 h-5 text-gray-500" />;
+      case 'image': return <FileImage className="w-5 h-5 text-blue-500" />;
+      default: return <File className="w-5 h-5 text-green-500" />;
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 50, opacity: 0 }}
+        className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <header className="p-4 border-b flex justify-between items-center">
+          <h2 className="text-xl font-bold text-gray-800">{stageData.label} - Results</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-800">
+            <X className="w-6 h-6" />
+          </button>
+        </header>
+
+        <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 overflow-y-auto">
+          {/* Real Logs Section */}
+          <div className="md:col-span-2">
+            <h3 className="font-semibold text-gray-700 mb-2">Execution Logs</h3>
+            <div className="bg-gray-900 text-white font-mono text-sm rounded-lg p-4 h-96 overflow-y-auto">
+              {stageData.realLogs.map((log, index) => (
+                <p key={index} className="whitespace-pre-wrap">{`$ ${log}`}</p>
+              ))}
+            </div>
+          </div>
+
+          {/* Artifacts Section */}
+          <div>
+            <h3 className="font-semibold text-gray-700 mb-2">Generated Artifacts</h3>
+            <div className="space-y-2">
+              {stageData.artifacts.length > 0 ? (
+                stageData.artifacts.map((artifact, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-3 flex items-center justify-between">
+                     <div className="flex items-center gap-3">
+                      {getIconForArtifact(artifact.type)}
+                      <span className="text-gray-800">{artifact.name}</span>
+                    </div>
+                    <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded-full">{artifact.size}</span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-gray-500">No artifacts were generated.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
 
 export default function Simulator() {
   const searchParams = useSearchParams();
@@ -38,6 +113,8 @@ export default function Simulator() {
 
   const [isInitialized, setIsInitialized] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [viewingStageId, setViewingStageId] = useState<string | null>(null);
+
 
   useEffect(() => {
     if (type && !isInitialized) {
@@ -64,9 +141,15 @@ export default function Simulator() {
       startSimulation();
     }
   };
+  
+  // --- THIS IS THE FIX ---
+  // Added a defensive check to ensure 'node' and 'node.data' exist before access.
+  const handleNodeClick = (node?: PipelineNode) => {
+    if (node && node.data && node.data.status === 'success') {
+      setViewingStageId(node.id);
+    }
+  };
 
-  const handleStopSimulation = () => stopSimulation();
-  const handleResetSimulation = () => resetSimulation();
   const handleSpeedChange = (speed: number) => updateSpeed(speed);
 
   if (!type || !currentPipeline) {
@@ -89,6 +172,15 @@ export default function Simulator() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <AnimatePresence>
+        {viewingStageId && (
+          <StageDetailsModal
+            stageId={viewingStageId}
+            onClose={() => setViewingStageId(null)}
+          />
+        )}
+      </AnimatePresence>
+      
       {/* Header */}
       <header className="w-full px-8 py-4 bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -123,7 +215,7 @@ export default function Simulator() {
             </button>
 
             <button
-              onClick={handleStopSimulation}
+              onClick={stopSimulation}
               className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
             >
               <Square className="w-4 h-4" />
@@ -131,7 +223,7 @@ export default function Simulator() {
             </button>
 
             <button
-              onClick={handleResetSimulation}
+              onClick={resetSimulation}
               className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
             >
               <RotateCcw className="w-4 h-4" />
@@ -184,7 +276,11 @@ export default function Simulator() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Pipeline Visualization</h2>
-              <PipelineVisualization pipeline={currentPipeline} className="h-96" />
+              <PipelineVisualization 
+                pipeline={currentPipeline} 
+                className="h-96"
+                onNodeClick={handleNodeClick} 
+              />
             </div>
           </div>
 
@@ -200,7 +296,7 @@ export default function Simulator() {
                   <span
                     className={`font-semibold ${isRunning ? 'text-green-600' : 'text-gray-600'}`}
                   >
-                    {isRunning ? 'Running' : 'Stopped'}
+                    {isRunning ? 'Running' : 'Paused'}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -212,7 +308,7 @@ export default function Simulator() {
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${progress}%` }}
+                    style={{ width: `${progress || 0}%` }}
                   />
                 </div>
               </div>
@@ -243,8 +339,6 @@ export default function Simulator() {
                         </span>
                         <span>{log.message}</span>
                       </div>
-                      {/* --- THIS IS THE FIX --- */}
-                      {/* Directly use the learnMoreUrl from the log object */}
                       {log.learnMoreUrl && (
                         <a
                           href={log.learnMoreUrl}
@@ -253,6 +347,16 @@ export default function Simulator() {
                           className="text-blue-600 underline font-semibold text-xs flex-shrink-0 ml-4"
                         >
                           Learn more
+                        </a>
+                      )}
+                      {log.showResultUrl && (
+                        <a
+                          href={log.showResultUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-600 underline font-semibold text-xs flex-shrink-0 ml-4"
+                        >
+                          Show result
                         </a>
                       )}
                     </div>
